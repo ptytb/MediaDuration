@@ -23,6 +23,7 @@ Function Get-MediaDuration {
     if ($Total) {
       $totalTime = [TimeSpan]::FromSeconds(0)
       $Progress = $true
+      $sigma = [char] 0x03A3
     }
     if ($Progress) {
       $totalCount = $items.Count
@@ -45,7 +46,7 @@ Function Get-MediaDuration {
         ++$i
         $percent = ($i / $totalCount * 100)
         $percentPretty = [math]::Round($percent, 1)
-        Write-Progress -Activity "Calculating duration" -Status "Progress: ${i} of ${totalCount} $percentPretty%" -PercentComplete $percent
+        Write-Progress -Activity "Calculating duration: $sigma $totalTime" -Status "Progress: ${i} of ${totalCount} $percentPretty%" -PercentComplete $percent
         if ($i -eq $totalCount) {
           $totalCount += 1  # when pipelining, process{} block is invoked per directory; counting won't work properly for recursive directories
         }
